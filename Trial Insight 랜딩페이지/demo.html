@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>데모 신청 — Trial Insight</title>
+<link rel="icon" type="image/png" href="logo/favicon-ti.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cerulean: #1F68B0;
+  --sky-dark:  #1752A0;
+  --text:      #0D1F35;
+  --text-muted:#4A6580;
+  --slate:     #6A8DAA;
+  --border:    rgba(30,100,170,0.12);
+  --bg-mid:    #F4F8FC;
+}
+
+html { scroll-behavior: smooth; background: #080f1e; }
+body {
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #F4F8FC;
+}
+
+/* ─── NAV ─────────────────────────────────── */
+nav {
+  position: sticky; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem clamp(1.5rem, 5vw, 4rem);
+  background: #080f1e;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-brand { display: flex; align-items: center; gap: 0.65rem; text-decoration: none; margin-top: 0; }
+.nav-links { display: flex; align-items: center; gap: 1.75rem; list-style: none; }
+.nav-links a { color: #7299B8; text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s, background 0.2s, border-color 0.2s; padding: 0.5rem 1.1rem; border-radius: 6px; border: 1px solid transparent; }
+.nav-links a:hover { color: #F4F8FC; border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.07); }
+.nav-links a:active { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.13); }
+
+/* ─── MAIN ─────────────────────────────────── */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem clamp(1.5rem, 5vw, 4rem);
+}
+
+.demo-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1000px;
+  width: 100%;
+  align-items: start;
+}
+
+/* ─── LEFT COPY ─────────────────────────────── */
+.demo-copy { padding-top: 1rem; padding-left: 2rem; }
+.demo-eyebrow {
+  font-size: 1.4rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--cerulean);
+  margin-bottom: 1rem; margin-top: 5rem;
+}
+.demo-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 800; line-height: 1.2;
+  letter-spacing: 0.05em; color: var(--text);
+  margin-bottom: 1.25rem;
+  text-wrap: balance;
+}
+.demo-title span { color: var(--cerulean); }
+.demo-desc {
+  font-size: 18px; color: var(--text-muted);
+  line-height: 1.7; font-weight: 500;
+  margin-bottom: 2rem; text-align: left;
+}
+.demo-features {
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
+.demo-feat-item {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  font-size: 0.875rem; color: var(--text-muted); font-weight: 500;
+}
+.demo-feat-item::before {
+  content: '';
+  display: block; flex-shrink: 0;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cerulean);
+  margin-top: 0.45rem;
+}
+
+/* ─── FORM ─────────────────────────────────── */
+.demo-form-wrap {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 48px rgba(10,40,100,0.1);
+  border: 1px solid var(--border);
+}
+.demo-form-title {
+  font-size: 1.35rem; font-weight: 800;
+  color: var(--text); margin-bottom: 0.5rem;
+  text-align: center; margin-top: -1.5rem;
+}
+.demo-form-sub {
+  font-size: 0.8rem; color: var(--slate);
+  margin-bottom: 1.75rem; line-height: 1.5;
+}
+.form-group { margin-bottom: 1.1rem; }
+.form-group label {
+  display: block; font-size: 0.8rem; font-weight: 600;
+  color: var(--text-muted); margin-bottom: 0.4rem;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; padding: 0.7rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 10px; font-size: 0.875rem;
+  font-family: inherit; color: var(--text);
+  background: var(--bg-mid);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--cerulean);
+  box-shadow: 0 0 0 3px rgba(31,104,176,0.1);
+  background: #fff;
+}
+.form-group textarea { resize: vertical; min-height: 90px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+.btn-submit {
+  width: 100%; padding: 0.85rem;
+  background: var(--cerulean); color: #fff;
+  border: none; border-radius: 10px;
+  font-size: 1rem; font-weight: 700;
+  font-family: inherit; cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: -0.01em;
+}
+.btn-submit:hover:not(:disabled) { background: var(--sky-dark); transform: translateY(-1px); }
+.btn-submit:disabled { background: var(--slate); cursor: not-allowed; opacity: 0.7; transform: none; }
+.btn-submit:active { transform: translateY(0); }
+
+.form-note {
+  font-size: 0.72rem; color: var(--slate);
+  margin-top: 0.75rem; text-align: center; line-height: 1.5;
+}
+
+/* ─── FOOTER ─────────────────────────────────── */
+footer {
+  background: #0D1F35;
+  padding: 5rem 2.5rem 3rem 2rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 2rem;
+}
+.footer-brand { font-size: 0.9rem; font-weight: 700; color: rgba(255,255,255,0.6); margin: 0; padding: 0; line-height: 1; }
+.footer-copy { font-size: 0.9rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media (min-width: 1600px) {
+  .nav-brand { margin-left: 16rem; }
+  .nav-links { margin-right: 24rem; }
+}
+
+@media (max-width: 1599px) {
+  .nav-links { margin-right: 11rem !important; }
+}
+
+.nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-hamburger span { display: block; width: 22px; height: 2px; background: #F4F8FC; border-radius: 2px; transition: transform 0.2s, opacity 0.2s; }
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+#demo-mobile-menu { display: none; flex-direction: column; position: fixed; top: 64px; left: 0; right: 0; z-index: 99; background: rgba(8,15,30,0.97); backdrop-filter: blur(8px); padding: 1rem 1.5rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+#demo-mobile-menu.open { display: flex; }
+#demo-mobile-menu a { color: #7299B8; text-decoration: none; font-size: 1rem; font-weight: 500; padding: 0.85rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+#demo-mobile-menu a:last-child { border-bottom: none; }
+
+.mobile-only-br { display: none; }
+.demo-desc-line { display: inline; }
+.d-br { display: inline; }
+.m-br { display: none; }
+
+@media (max-width: 720px) {
+  .demo-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  nav { padding: 1.1rem 1.25rem !important; }
+  .demo-copy { padding-left: 0 !important; text-align: center !important; }
+  .demo-wrap > div:first-child { margin-left: 0 !important; text-align: center !important; }
+  .demo-wrap > div:first-child > div { margin-left: 0 !important; display: flex; flex-direction: column; align-items: center; }
+  .demo-eyebrow { text-align: center !important; }
+  .demo-title { text-align: center !important; }
+  .demo-desc { text-align: center !important; }
+  .mobile-only-br { display: inline; }
+  .demo-desc-line { display: block !important; width: 100% !important; }
+  .m-br { display: inline !important; }
+  .d-br { display: none !important; }
+  .demo-icon-img { display: block !important; margin-left: auto !important; margin-right: auto !important; margin-top: -4rem !important; }
+}
+@media (max-width: 900px) {
+  .demo-icon-img { margin-top: 2rem !important; }
+}
+@media (max-width: 720px) {
+  .demo-icon-img { width: 65% !important; max-width: 240px !important; margin-top: 0rem !important; }
+}
+
+/* ─── SUCCESS ─────────────────────────────────── */
+.success-msg {
+  display: none; text-align: center;
+  padding: 2rem 0;
+}
+.success-msg .check {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: rgba(46,168,74,0.1);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+  animation: checkIn 0.45s cubic-bezier(0.16,1,0.3,1) both;
+}
+.success-msg .check svg path {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: checkDraw 0.4s ease 0.3s forwards;
+}
+@keyframes checkIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@keyframes checkDraw {
+  to { stroke-dashoffset: 0; }
+}
+.success-msg h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; }
+.success-msg p { font-size: 0.875rem; color: var(--slate); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="trial-insight-landing.html" class="nav-brand">
+    <img src="logo/ti-logo-typo-white.png" alt="Trial Insight" style="height:42px; width:auto;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="trial-insight-landing.html#why">제품 소개</a></li>
+    <li><a href="trial-insight-landing.html#features">핵심 기능</a></li>
+  </ul>
+  <button class="nav-hamburger" id="demoHamburger" aria-label="메뉴" onclick="toggleDemoMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="demo-mobile-menu">
+  <a href="trial-insight-landing.html#why" onclick="closeDemoMenu()">제품 소개</a>
+  <a href="trial-insight-landing.html#features" onclick="closeDemoMenu()">핵심 기능</a>
+</div>
+
+<!-- MAIN -->
+<main>
+  <div class="demo-wrap">
+
+    <!-- 좌측 설명 -->
+    <div class="demo-copy">
+      <div style="margin-left:2rem;">
+        <div class="demo-eyebrow" style="text-align:left; margin-top:1.5rem;">Request a Demo</div>
+        <h1 class="demo-title">데모 신청하기</h1>
+        <p class="demo-desc"><span class="demo-desc-line">임상연구 모니터링의 복잡함을 자동화로 해결하는</span><br class="d-br"><span class="demo-desc-line"> Trial Insight를 데모로 먼저 만나보세요.</span><br class="d-br"><span class="demo-desc-line"> 담당자가 연구 환경에 맞게</span><span class="demo-desc-line"> 직접 안내해드립니다.</span></p>
+      </div>
+      <img class="demo-icon-img" src="icons/icon-logo-memo.png" alt="Trial Insight" style="display:block; width:1300px; max-width:100%; margin-top:-3rem; transform: rotate(-20deg) translateX(10px); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);">
+    </div>
+
+    <!-- 우측 폼 -->
+    <div class="demo-form-wrap">
+
+      <form id="demoForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">담당자 이름 <span style="color:#C05A5A;">*</span></label>
+            <input type="text" id="name" placeholder="홍길동" autocomplete="name" required>
+          </div>
+          <div class="form-group">
+            <label for="company">기관·회사명 <span style="color:#C05A5A;">*</span></label>
+            <input type="text" id="company" placeholder="" autocomplete="organization" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">이메일 <span style="color:#C05A5A;">*</span></label>
+          <input type="email" id="email" placeholder="example@company.com" autocomplete="email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">연락처</label>
+          <input type="tel" id="phone" placeholder="010-0000-0000" autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label for="role">담당 업무</label>
+          <input type="text" id="role" placeholder="" autocomplete="organization-title">
+        </div>
+        <div class="form-group">
+          <label for="message">문의 내용</label>
+          <textarea id="message" placeholder=""></textarea>
+        </div>
+        <button type="submit" class="btn-submit">신청 보내기 →</button>
+        <p class="form-note">제출하신 정보는 데모 안내 목적으로만 사용됩니다.</p>
+      </form>
+
+      <div class="success-msg" id="successMsg" tabindex="-1" aria-live="polite">
+        <div class="check">
+          <svg width="42" height="42" viewBox="0 0 28 28" fill="none">
+            <path d="M6 14L11.5 19.5L22 9" stroke="#2EA84A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 style="font-size:1.6rem; margin-top:2rem; letter-spacing:0.04em;">신청해주셔서 감사합니다.</h3>
+        <p style="font-size:1.05rem; line-height:1.4; margin-top:0.7rem;">담당자가 확인 후 입력해 주신 연락처로<br>가까운 시일 내에<br class="mobile-only-br"> 연락드릴 예정입니다.</p>
+        <p style="margin-top:1.5rem; font-size:1.1rem;">문의 : 063-278-9637</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <a href="https://www.nanumspace.com/" target="_blank" rel="noopener">
+      <img src="nanumlogo/nanum-logo.png" alt="NanumSpace" style="height:100px; width:auto; display:block; margin:0; padding:0;">
+    </a>
+  </div>
+  <div class="footer-copy">
+    전북특별자치도 전주시 건지로20 (54907)<br>
+    Email: info@nanumspace.com &nbsp;|&nbsp; Phone: +82 63-278-9637 &nbsp;|&nbsp; Fax: +82 63-259-3483<br>
+    나눔스페이스 홈페이지 : <a href="https://www.nanumspace.com/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); text-decoration:underline;">https://www.nanumspace.com/</a><br>
+    © 2026 NanumSpace. All rights reserved.
+  </div>
+</footer>
+
+<script>
+function toggleDemoMenu() {
+  const btn = document.getElementById('demoHamburger');
+  const menu = document.getElementById('demo-mobile-menu');
+  btn.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+function closeDemoMenu() {
+  document.getElementById('demoHamburger').classList.remove('open');
+  document.getElementById('demo-mobile-menu').classList.remove('open');
+}
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('demoForm');
+  const btn = form.querySelector('.btn-submit');
+  const successMsg = document.getElementById('successMsg');
+
+  btn.disabled = true;
+  btn.textContent = '전송 중…';
+
+  setTimeout(function() {
+    const formHeight = form.offsetHeight;
+    form.style.display = 'none';
+    successMsg.style.display = 'flex';
+    successMsg.style.flexDirection = 'column';
+    successMsg.style.alignItems = 'center';
+    successMsg.style.justifyContent = 'center';
+    successMsg.style.minHeight = formHeight + 'px';
+    successMsg.style.paddingBottom = '4rem';
+    const check = successMsg.querySelector('.check');
+    check.style.animation = 'none';
+    check.querySelector('path').style.animation = 'none';
+    check.offsetHeight;
+    check.style.animation = '';
+    check.querySelector('path').style.animation = '';
+    successMsg.focus();
+  }, 600);
+}
+</script>
+</body>
+</html>
