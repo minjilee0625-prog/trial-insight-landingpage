@@ -162,12 +162,12 @@ nav {
 }
 .hero-inner { position: relative; z-index: 3; }
 
-.hero-content { width: 100%; text-align: center; padding-left: 0; margin-top: -0.5rem; position: relative; top: 11.5rem; }
+.hero-content { width: 100%; text-align: center; padding-left: 0; margin-top: -0.5rem; position: relative; top: 7.0rem; }
 .hero-logo-right { flex-shrink: 0; display: flex; align-items: center; justify-content: center; transform: none; margin-top: -6.7rem; }
 /* 두 텍스트를 같은 자리에 겹쳐 표시하는 슬롯 — sub-overlay는 absolute로 레이아웃 분리 */
 .hero-eyebrow-slot {
   position: relative;
-  top: 5rem;
+  top: 1.7rem;
   margin-top: 4.5rem;
   margin-bottom: -2rem;
   display: flex;
@@ -241,7 +241,7 @@ nav {
   color: #4BA3DE;
   line-height: 1.65;
   animation: heroSubIn 3.0s ease both;
-  animation-delay: 7.0s;
+  animation-delay: 1.6s;
 }
 .hero-sub-overlay .hero-sub-insight {
   font-size: 1em;
@@ -650,6 +650,7 @@ footer {
   .hero-content { margin-top: 0 !important; }
   .hero-logo-right { margin-top: -4rem !important; }
   .hero-arrow { bottom: 2rem !important; }
+  #cta > img { width: 500px !important; height: auto !important; bottom: 32px !important; left: 50% !important; transform: translateX(calc(-50% + 1.5rem)) rotate(-12deg) !important; }
 }
 
 @media (max-width: 1366px) {
@@ -663,6 +664,7 @@ footer {
   .hero-logo-right { margin-top: -3rem !important; }
   .hero-logo-right img { width: 560px !important; }
   .hero-arrow { bottom: 1.5rem !important; }
+  #cta > img { width: 500px !important; height: auto !important; bottom: 32px !important; left: 50% !important; transform: translateX(calc(-50% + 1.5rem)) rotate(-12deg) !important; }
 
   /* 섹션 3 — 태블릿 포함 1열 세로 배치 */
   .features-grid-2col { display: flex !important; flex-direction: column !important; padding: 0 2rem !important; gap: 0 !important; }
@@ -741,15 +743,15 @@ footer {
 
   /* 히어로 */
   .hero-inner { flex-direction: column; align-items: center; gap: 1.5rem; margin-top: 0; }
-  .hero-eyebrow-slot { margin-top: 5rem !important; margin-bottom: 0 !important; top: 0rem !important; }
+  .hero-eyebrow-slot { margin-top: 5rem !important; margin-bottom: 0 !important; top: -1.7rem !important; }
   .m-eyebrow-br { display: block; }
   .hero-eyebrow { font-size: 20px !important; letter-spacing: 0.08em !important; }
   .hero-sub-overlay { font-size: 20px !important; letter-spacing: 0.08em !important; }
-  .hero-content { padding-left: 0; max-width: 100%; text-align: center; margin-top: 0 !important; top: 6.5rem !important; }
+  .hero-content { padding-left: 0; max-width: 100%; text-align: center; margin-top: 0 !important; top: 4.5rem !important; }
   .hero-headline { font-size: clamp(14px, 4.5vw, 65px) !important; text-align: center; }
   .hero-line1, .hero-line2 { display: block !important; white-space: nowrap !important; }
   .hero-logo-right { display: flex !important; margin-top: -3rem !important; }
-  .hero-logo-right img { width: 260px !important; margin-top: 3.5rem !important; }
+  .hero-logo-right img { width: 260px !important; margin-top: 2.0rem !important; }
   nav { padding: 1.1rem 1.25rem !important; }
   .nav-brand { margin-left: 0 !important; }
 
@@ -815,10 +817,10 @@ footer {
   .hero-glass-wrap { transform: scale(0.30); }
   .hg-hide-xs { display: none; }
   .hero-glass { box-shadow: none !important; }
-  .hero-eyebrow-slot { margin-top: 4.5rem !important; top: -0.5rem !important; }
+  .hero-eyebrow-slot { margin-top: 4.5rem !important; top: -2.2rem !important; }
   .hero-eyebrow { font-size: clamp(13px, 3.8vw, 17px) !important; white-space: normal !important; }
   .hero-sub-overlay { font-size: clamp(13px, 3.8vw, 17px) !important; white-space: nowrap !important; }
-  .hero-content { top: 5.5rem !important; }
+  .hero-content { top: 3.5rem !important; }
   .hero-headline { font-size: clamp(22px, 7vw, 65px) !important; text-align: center; }
   .hero-line1, .hero-line2 { display: block !important; white-space: normal !important; word-break: keep-all; text-align: center !important; }
   .section { padding: 3rem 1rem; }
@@ -1009,11 +1011,10 @@ html body .feat-visual.feat-icon-pair { flex-direction: row !important; justify-
       <h1 class="hero-headline"><span class="hero-line1">임상 모니터링, 사후 집계에서</span><span class="hero-line2">실시간 의사결정으로</span></h1>
     </div>
     <div class="hero-eyebrow-slot">
-      <div class="hero-eyebrow">제약사·CRO 모니터링 팀을 위한<br class="m-eyebrow-br"> 임상연구 모니터링 플랫폼</div>
       <p class="hero-sub-overlay">데이터가 쌓이는 순간 <span class="hero-sub-insight">Insight</span>가 됩니다.</p>
     </div>
     <div class="hero-logo-right" style="flex-direction:column;">
-      <img src="logo/ti-logo-icon-white.png" alt="Trial Insight" style="width: 520px; height: auto; margin-top:3.5rem;">
+      <img src="logo/ti-logo-icon-white.png" alt="Trial Insight" style="width: 520px; height: auto; margin-top:4.2rem;">
     </div>
   </div>
 
@@ -1343,7 +1344,7 @@ html body .feat-visual.feat-icon-pair { flex-direction: row !important; justify-
     <h2 class="s-title" style="margin-top:1rem;"><span style="font-family:'KBLJumpCondensed',sans-serif; font-weight:800; font-style:normal; display:inline-block; transform:translateY(-0.3rem);">Trial Insight</span>가<br class="mobile-br"> 궁금하신가요?</h2>
     <div class="cta-actions" style="margin-top:2.5rem;">
       <div style="display:flex; flex-direction:column; align-items:center; gap:0.75rem; padding:2rem 3rem;">
-        <p style="color:rgba(255,255,255,0.95); font-size:1.6rem; font-weight:800; margin:0 0 0.5rem; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:0.5rem 1.5rem; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);">제품 정보 문의하기</p>
+        <p style="color:rgba(255,255,255,0.95); font-size:1.6rem; font-weight:800; margin:0 0 0.5rem; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:0.5rem 1.5rem;">제품 정보 문의하기</p>
         <div style="display:flex; flex-direction:column; align-items:center; gap:0.2rem;">
           <p style="color:rgba(255,255,255,0.95); font-size:1.25rem; font-weight:500; margin:0;">063-278-9637</p>
           <p style="color:rgba(255,255,255,0.95); font-size:1.25rem; font-weight:500; margin:0;">info@nanumspace.com</p>
@@ -1521,7 +1522,7 @@ window.addEventListener('scroll', function() {
     ctx.clearRect(0, 0, W, H);
 
     var size = Math.min(W, H) * (W < 600 ? 0.35 : 0.23);
-    var cx = W * 0.5, cy = W < 1600 ? H * 0.67 : H * 0.67;
+    var cx = W * 0.5, cy = W < 800 ? H * 0.645 : H * 0.70;
 
     var rotated = verts.map(function(v) {
       var r = rotY(v, t);
