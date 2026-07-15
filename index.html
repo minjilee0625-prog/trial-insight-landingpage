@@ -2229,6 +2229,21 @@ window.addEventListener('scroll', function() {
   }
 })();
 
+/* ── 뷰포트 비례 확대: 디자인 기준폭 1440px, 넓은 화면에서 비율 통일 ── */
+(function() {
+  var BASE = 1440;
+  function applyZoom() {
+    var w = window.innerWidth;
+    if (w > BASE) {
+      document.documentElement.style.zoom = String(Math.round((w / BASE) * 1000) / 1000);
+    } else {
+      document.documentElement.style.zoom = '';
+    }
+  }
+  applyZoom();
+  window.addEventListener('resize', applyZoom);
+})();
+
 /* ── 3D Gear Icon ── */
 (function() {
   const canvas = document.getElementById('gear-canvas');
