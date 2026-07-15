@@ -27,11 +27,8 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scrollbar-color: #A8BCC8 transparent; scrollbar-width: thin; }
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #A8BCC8; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #8AAABB; }
+html { scrollbar-width: none; -ms-overflow-style: none; }
+::-webkit-scrollbar { display: none; }
 
 :root {
   --bg:        #F0F5FB;
@@ -51,7 +48,7 @@ html { scrollbar-color: #A8BCC8 transparent; scrollbar-width: thin; }
   --font: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
 }
 
-html { scroll-behavior: smooth; background: #080f1e; scroll-snap-type: y mandatory; }
+html { scroll-behavior: smooth; background: #080f1e; scroll-snap-type: y mandatory; overscroll-behavior: none; }
 body {
   background: var(--bg);
   color: var(--text);
@@ -2147,6 +2144,8 @@ window.addEventListener('scroll', function() {
       /* FCC 활성 중에는 항상 페이지 스크롤 차단 — scroll-snap 충돌 방지 */
       e.preventDefault();
       var dy = e.deltaY;
+      if (e.deltaMode === 1) dy *= 40;
+      else if (e.deltaMode === 2) dy *= window.innerHeight;
       if (Math.abs(dy) < 5 || wBusy) return;
       wBusy = true;
       if (dy > 0) {
