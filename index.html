@@ -18,15 +18,6 @@
 <meta name="twitter:description" content="데이터가 쌓이는 순간 Insight가 됩니다.">
 <meta name="twitter:image" content="https://trial-insight-landing.netlify.app/og-image.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<script>
-/* 윈도우 브라우저 100%를 맥북 100%의 시각 크기 기준으로 맞춘다. */
-(function() {
-  var platform = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || '';
-  if (/^Win/i.test(platform) || /Windows/i.test(platform)) {
-    document.documentElement.classList.add('platform-windows');
-  }
-})();
-</script>
 <style>
 @font-face { font-family: 'KBLJump'; src: url('fonts/KBLJump_EB_Extended.ttf') format('truetype'); font-weight: 800; }
 @font-face { font-family: 'KBLJump'; src: url('fonts/KBLJump_B.ttf') format('truetype'); font-weight: 700; }
@@ -63,8 +54,6 @@ html {
   scroll-snap-type: y mandatory;
   overscroll-behavior-y: contain;
 }
-/* Windows Chrome·Edge의 100% 배율에서 맥북 100% 기준과 같은 시각 밀도를 유지한다. */
-html.platform-windows { zoom: 0.75; }
 body {
   background: var(--bg);
   color: var(--text);
@@ -1816,13 +1805,22 @@ html body .feat-visual.feat-icon-pair { flex-direction: row !important; justify-
     var section = typeof target === 'string' ? document.getElementById(target) : target;
     if (!section) return;
     var behavior = !reducedMotion.matches && supportsSmoothScroll ? 'smooth' : 'auto';
-    /* scroll-snap-type과의 충돌 방지: 스크롤 중 snap 일시 비활성 */
-    document.documentElement.style.scrollSnapType = 'none';
+    /* scroll-snap과 충돌 없이 스크롤하기 위해 snap 일시 비활성 →
+       scrollend 이벤트(Chrome114+)로 애니메이션 완료 후 복원,
+       미지원 브라우저는 2s 폴백 */
+    var html = document.documentElement;
+    html.style.scrollSnapType = 'none';
     var top = Math.round(section.getBoundingClientRect().top + window.pageYOffset);
     window.scrollTo({ top: top, behavior: behavior });
-    setTimeout(function() {
-      document.documentElement.style.scrollSnapType = '';
-    }, behavior === 'smooth' ? 900 : 0);
+    if (behavior !== 'smooth') { html.style.scrollSnapType = ''; return; }
+    var done = false;
+    var restore = function() {
+      if (done) return; done = true;
+      html.style.scrollSnapType = '';
+      document.removeEventListener('scrollend', restore);
+    };
+    document.addEventListener('scrollend', restore, { once: true });
+    setTimeout(restore, 2000);
   };
 
   window.tiScrollTop = function() {
