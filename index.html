@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script>
   /* 콘텐츠는 기본적으로 보이게 두고, 지원 환경에서만 진입 모션을 켠다. */
-  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if ('IntersectionObserver' in window) {
     document.documentElement.classList.add('js');
   }
 </script>
@@ -60,8 +60,7 @@ html { scrollbar-color: #A8BCC8 transparent; scrollbar-width: thin; }
 html {
   scroll-behavior: smooth;
   background: #080f1e;
-  /* Windows의 휠 입력을 막지 않도록 부드러운 스냅만 사용한다. */
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
 }
 .hero, .why-section, .fcc-section, .features-section, .benefits-section, #faq, .cta-footer-wrap {
   scroll-snap-stop: always;
@@ -270,8 +269,8 @@ nav.nav-scrolled:not(.nav-light-theme) .nav-links a { color: rgba(255,255,255,0.
 /* ─── PAGE LOAD ENTRANCE ANIMATIONS ──────────── */
 /* 순서: 1.아이브로우 → 2.헤더타이틀 → 3.서브텍스트 → 4.로고 이미지 */
 @keyframes heroEnterFade {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 /* nav 페이드인 제거 */
 .hero-headline {}
@@ -1025,11 +1024,6 @@ footer {
   .nav-hamburger { display: flex; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-  .fade-in, .js .fade-in { opacity: 1; transform: none; }
-  html { scroll-behavior: auto; scroll-snap-type: none; }
-}
 
 /* 데스크탑 전용 */
 @media (min-width: 801px) {
@@ -1813,7 +1807,6 @@ html body .feat-visual.feat-icon-pair { flex-direction: row !important; justify-
 
 <script>
 (function() {
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var rafId = null;
 
   function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
@@ -1823,7 +1816,6 @@ html body .feat-visual.feat-icon-pair { flex-direction: row !important; justify-
     var startY = window.pageYOffset;
     if (Math.abs(targetY - startY) < 2) return;
     if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-    if (reducedMotion.matches) { window.scrollTo(0, targetY); return; }
     html.style.scrollSnapType = 'none';
     html.style.scrollBehavior = 'auto';
     window._tiScrolling = true;
@@ -1868,16 +1860,13 @@ window.addEventListener('scroll', function() {
   const canvas = document.getElementById('hero-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let W, H, nodes;
 
   function init() {
     W = canvas.offsetWidth;
     H = canvas.offsetHeight;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(W * dpr);
-    canvas.height = Math.round(H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    canvas.width = W;
+    canvas.height = H;
     nodes = [];
     const count = Math.max(22, Math.min(Math.floor(W * H / 14000), 50));
     for (let i = 0; i < count; i++) {
@@ -1926,7 +1915,7 @@ window.addEventListener('scroll', function() {
       ctx.fill();
     });
 
-    if (!reducedMotion.matches) requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
   }
 
   let resizeTimer;
@@ -1942,16 +1931,10 @@ window.addEventListener('scroll', function() {
   const canvas = document.getElementById('geo-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let W = 0, H = 0;
 
   function resize() {
-    W = canvas.offsetWidth;
-    H = canvas.offsetHeight;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(W * dpr);
-    canvas.height = Math.round(H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
   }
 
   const phi = (1 + Math.sqrt(5)) / 2;
@@ -1984,6 +1967,7 @@ window.addEventListener('scroll', function() {
   }
 
   function draw() {
+    var W = canvas.width, H = canvas.height;
     var t = Date.now() * 0.00025;
     ctx.clearRect(0, 0, W, H);
 
@@ -2022,7 +2006,7 @@ window.addEventListener('scroll', function() {
       ctx.fill();
     });
 
-    if (!reducedMotion.matches) requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
   }
 
   window.addEventListener('resize', function() { resize(); });
@@ -2210,7 +2194,6 @@ window.addEventListener('scroll', function() {
     var wheelRemainder = 0;
     var wheelResetTimer = null;
     var desktopCarousel = window.matchMedia('(min-width: 1001px) and (any-pointer: fine)');
-    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     function normalizedWheelDelta(event) {
       var delta = event.deltaY;
@@ -2225,7 +2208,7 @@ window.addEventListener('scroll', function() {
 
     document.addEventListener('wheel', function(e) {
       var rect = fccSec.getBoundingClientRect();
-      if (!desktopCarousel.matches || reducedMotion.matches) return;
+      if (!desktopCarousel.matches) return;
       if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return;
       if (Math.abs(rect.top) > Math.max(150, window.innerHeight * 0.25)) return;
       /* busy 또는 섹션 이동 중이면 차단 — wheelRemainder 누적도 하지 않음
@@ -2324,7 +2307,6 @@ window.addEventListener('scroll', function() {
   const canvas = document.getElementById('gear-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const dpr = window.devicePixelRatio || 1;
   const W = 104, H = 104;
   canvas.width = W * dpr; canvas.height = H * dpr;
@@ -2422,13 +2404,12 @@ window.addEventListener('scroll', function() {
     draw();
     idleAnimId = requestAnimationFrame(idleLoop);
   }
-  if (!reducedMotion.matches) idleAnimId = requestAnimationFrame(idleLoop);
+  idleAnimId = requestAnimationFrame(idleLoop);
 
   const card = document.getElementById('gear-card');
   if (!card) return;
 
   card.addEventListener('mouseenter', function() {
-    if (reducedMotion.matches) return;
     cancelAnimationFrame(idleAnimId); idleAnimId = null;
     if (animId) return;
     bobFrame = 0;
@@ -2451,7 +2432,6 @@ window.addEventListener('scroll', function() {
   });
 
   card.addEventListener('mouseleave', function() {
-    if (reducedMotion.matches) return;
     cancelAnimationFrame(animId); animId = null;
     cursorBob = 0;
     if (!idleAnimId) idleAnimId = requestAnimationFrame(idleLoop);
@@ -2462,7 +2442,6 @@ window.addEventListener('scroll', function() {
   const canvas = document.getElementById('bolt-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const dpr = window.devicePixelRatio || 1;
   const W = 104, H = 104;
   canvas.width = W * dpr; canvas.height = H * dpr;
@@ -2530,7 +2509,6 @@ window.addEventListener('scroll', function() {
   if (!card) return;
 
   card.addEventListener('mouseenter', function() {
-    if (reducedMotion.matches) return;
     if (animId) return;
     bobFrame = 0;
     function loop() {
@@ -2551,7 +2529,6 @@ window.addEventListener('scroll', function() {
   });
 
   card.addEventListener('mouseleave', function() {
-    if (reducedMotion.matches) return;
     cancelAnimationFrame(animId);
     animId = null;
     bobY = 0;
